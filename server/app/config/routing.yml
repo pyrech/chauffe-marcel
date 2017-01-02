@@ -1,0 +1,3 @@
+default:
+    resource: ChauffeMarcel\Controller\DefaultController
+    type:     annotation
