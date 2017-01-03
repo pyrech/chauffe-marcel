@@ -5,3 +5,7 @@ parameters:
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
 
+    # Particle required parameters to contact it
+    particle_device_id: 123456azerty
+    particle_access_token: azertyuiop
+

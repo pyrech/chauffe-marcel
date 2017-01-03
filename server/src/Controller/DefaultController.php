@@ -13,6 +13,9 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $this->get('chauffe_marcel.particle');
         // todo
+
+        return new \Symfony\Component\HttpFoundation\Response('ok');
     }
 }
