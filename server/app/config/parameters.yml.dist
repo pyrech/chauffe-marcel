@@ -9,3 +9,6 @@ parameters:
     particle_device_id: 123456azerty
     particle_access_token: azertyuiop
 
+    # Domains to allow requesting our API
+    accepted_domains: []
+

@@ -1,0 +1,16 @@
+imports:
+    - { resource: jane.yml }
+
+services:
+    chauffe_marcel.particle:
+        class: ChauffeMarcel\Remote\Particle
+        arguments:
+            - '%particle_device_id%'
+            - '%particle_access_token%'
+
+    chauffe_marcel.event_listener.cors:
+        class: ChauffeMarcel\EventListener\CorsListener
+        arguments:
+            - '%accepted_domains%'
+        tags:
+            - { name: 'kernel.event_subscriber' }
