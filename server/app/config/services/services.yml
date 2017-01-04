@@ -8,6 +8,12 @@ services:
             - '%particle_device_id%'
             - '%particle_access_token%'
 
+    chauffe_marcel.storage:
+        class: ChauffeMarcel\Configuration\Storage
+        arguments:
+            - '%kernel.root_dir%/../var/storage.json'
+            - '@chauffe_marcel.api.serializer'
+
     chauffe_marcel.event_listener.cors:
         class: ChauffeMarcel\EventListener\CorsListener
         arguments:
