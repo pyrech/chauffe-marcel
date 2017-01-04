@@ -14,3 +14,15 @@ services:
             - '%accepted_domains%'
         tags:
             - { name: 'kernel.event_subscriber' }
+
+    chauffe_marcel.api.serializer.normalizers:
+        class: ArrayObject
+        factory: [ChauffeMarcel\Api\Normalizer\NormalizerFactory, create]
+        public: false
+
+    chauffe_marcel.api.serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            - '@chauffe_marcel.api.serializer.normalizers'
+            - ['@jane.serializer.json_encoder', '@jane.serializer.raw_encoder']
+

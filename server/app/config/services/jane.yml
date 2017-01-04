@@ -1,0 +1,21 @@
+services:
+    jane.serializer.json_encode:
+        class: Symfony\Component\Serializer\Encoder\JsonEncode
+        public: false
+
+    jane.serializer.json_decode:
+        class: Symfony\Component\Serializer\Encoder\JsonDecode
+        arguments:
+            - false
+        public: false
+
+    jane.serializer.json_encoder:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+        arguments:
+            - '@jane.serializer.json_encode'
+            - '@jane.serializer.json_decode'
+        public: false
+
+    jane.serializer.raw_encoder:
+        class: Joli\Jane\Encoder\RawEncoder
+        public: false

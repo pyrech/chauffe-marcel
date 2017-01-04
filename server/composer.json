@@ -4,7 +4,8 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "ChauffeMarcel\\": "src/"
+            "ChauffeMarcel\\": "src/",
+            "ChauffeMarcel\\Api\\": "generated/"
         },
         "classmap": [
             "app/AppKernel.php",
@@ -18,7 +19,9 @@
         "sensio/distribution-bundle": "^5.0",
         "incenteev/composer-parameter-handler": "^2.0",
         "sensio/framework-extra-bundle": "^3.0",
-        "jolicode/gif-exception-bundle": "^1.2"
+        "jolicode/gif-exception-bundle": "^1.2",
+        "jane/jane": "^1.5",
+        "ramsey/uuid": "^3.5"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^3.0"

@@ -14,6 +14,7 @@ help:
 	@echo "   ## Build"
 	@echo ""
 	@echo "   .  make build                - Build application"
+	@echo "   .  make generate-api         - Generate API models from json schema"
 	@echo ""
 	@echo "   ## Run"
 	@echo ""
@@ -33,6 +34,12 @@ build:
 	@echo ""
 	rm -rf var/cache/dev/ && rm -rf var/cache/prod/
 	php bin/console assets:install
+
+generate-api:
+	@echo ""
+	@echo "====================== Generating API ======================="
+	@echo ""
+	./vendor/bin/jane generate ../config/schema.json ChauffeMarcel ChauffeMarcel\\Api generated/
 
 start:
 	@echo ""

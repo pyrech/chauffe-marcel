@@ -1,0 +1,54 @@
+{
+    "title": "JSON Schema for Chauffe Marcel's API",
+    "id": "http://chauffe-marcel/v1/schema.json#",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "additionalProperties": false,
+    "definitions": {
+        "Configuration": {
+            "type": "object",
+            "properties": {
+                "timeSlots": {
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/TimeSlot" }
+                }
+            }
+        },
+        "TimeSlot": {
+            "type": "object",
+            "properties": {
+                "uuid": {
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
+                },
+                "start": {
+                    "type": "string",
+                    "pattern": "^[0-9]{2}:[0-9]{2}$"
+                },
+                "end": {
+                    "type": "string",
+                    "pattern": "^[0-9]{2}:[0-9]{2}$"
+                },
+                "dayOfWeek": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5,
+                        6,
+                        7
+                    ]
+                }
+            }
+        },
+        "Error": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
