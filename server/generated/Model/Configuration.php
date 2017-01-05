@@ -5,9 +5,30 @@ namespace ChauffeMarcel\Api\Model;
 class Configuration
 {
     /**
+     * @var string
+     */
+    protected $mode;
+    /**
      * @var TimeSlot[]
      */
     protected $timeSlots;
+    /**
+     * @return string
+     */
+    public function getMode()
+    {
+        return $this->mode;
+    }
+    /**
+     * @param string $mode
+     *
+     * @return self
+     */
+    public function setMode($mode = null)
+    {
+        $this->mode = $mode;
+        return $this;
+    }
     /**
      * @return TimeSlot[]
      */

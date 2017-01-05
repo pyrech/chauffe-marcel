@@ -7,11 +7,22 @@
         "Configuration": {
             "type": "object",
             "properties": {
+                "mode": {
+                    "$ref": "#/definitions/Mode"
+                },
                 "timeSlots": {
                     "type": "array",
                     "items": { "$ref": "#/definitions/TimeSlot" }
                 }
             }
+        },
+        "Mode": {
+            "type": "string",
+            "enum": [
+                "not_forced",
+                "forced_on",
+                "forced_off"
+            ]
         },
         "TimeSlot": {
             "type": "object",

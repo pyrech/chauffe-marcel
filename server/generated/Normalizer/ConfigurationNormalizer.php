@@ -31,6 +31,9 @@ class ConfigurationNormalizer extends SerializerAwareNormalizer implements Denor
         if (!isset($context['rootSchema'])) {
             $context['rootSchema'] = $object;
         }
+        if (property_exists($data, 'mode')) {
+            $object->setMode($data->{'mode'});
+        }
         if (property_exists($data, 'timeSlots')) {
             $values = array();
             foreach ($data->{'timeSlots'} as $value) {
@@ -43,6 +46,9 @@ class ConfigurationNormalizer extends SerializerAwareNormalizer implements Denor
     public function normalize($object, $format = null, array $context = array())
     {
         $data = new \stdClass();
+        if (null !== $object->getMode()) {
+            $data->{'mode'} = $object->getMode();
+        }
         if (null !== $object->getTimeSlots()) {
             $values = array();
             foreach ($object->getTimeSlots() as $value) {

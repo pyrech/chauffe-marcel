@@ -30,7 +30,10 @@ class Storage
     public function retrieve(): Configuration
     {
         if (!file_exists($this->path)) {
-            return new Configuration();
+            $configuration = new Configuration();
+            $configuration->setMode(ModeConstant::NOT_FORCED);
+
+            return $configuration;
         }
 
         $json = file_get_contents($this->path);

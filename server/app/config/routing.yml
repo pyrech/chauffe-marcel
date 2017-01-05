@@ -5,3 +5,7 @@ default:
 time_slot:
     resource: ChauffeMarcel\Controller\TimeSlotController
     type:     annotation
+
+mode:
+    resource: ChauffeMarcel\Controller\ModeController
+    type:     annotation

@@ -100,6 +100,41 @@
                     }
                 }
             }
+        },
+        "/mode/": {
+            "get": {
+                "summary": "Get the current mode",
+                "responses": {
+                    "200": {
+                        "description": "The current mode",
+                        "schema": {
+                            "$ref": "schema.json#definitions/Mode"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Update the current mode",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "New mode to push",
+                        "required": true,
+                        "schema": {
+                            "$ref": "schema.json#definitions/Mode"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "True if everything goes right",
+                        "schema": {
+                            "type": "bool"
+                        }
+                    }
+                }
+            }
         }
     }
 }
