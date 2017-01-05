@@ -32,6 +32,7 @@ class Storage
         if (!file_exists($this->path)) {
             $configuration = new Configuration();
             $configuration->setMode(ModeConstant::NOT_FORCED);
+            $configuration->setTimeSlots([]);
 
             return $configuration;
         }
