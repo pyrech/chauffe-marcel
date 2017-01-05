@@ -78,7 +78,7 @@ class CorsListener implements EventSubscriberInterface
         }
 
         $response->headers->add([
-            'Access-Control-Allow-Methods'     => 'GET',
+            'Access-Control-Allow-Methods'     => $request->headers->get('Access-Control-Request-Method', 'GET'),
             'Access-Control-Allow-Origin'      => $origin,
             'Access-Control-Allow-Credentials' => 'true',
             'Access-Control-Allow-Headers'     => $request->headers->get('Access-Control-Request-Headers', '*'),

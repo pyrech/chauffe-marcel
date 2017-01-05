@@ -1,0 +1,105 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Chauffe Marcel",
+        "description": "Chauffe Marcel's API",
+        "version": "0.1"
+    },
+    "host": "127.0.0.1:8000",
+    "basePath": "/api",
+    "schemes": [
+        "http"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/time-slots/": {
+            "get": {
+                "summary": "Get list of registered time slots",
+                "responses": {
+                    "200": {
+                        "description": "List of time slots",
+                        "schema": {
+                            "type": "array",
+                            "items": { "$ref": "schema.json#definitions/TimeSlot" }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create a new time slot",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Time slot to create",
+                        "required": true,
+                        "schema": {
+                            "$ref": "schema.json#definitions/TimeSlot"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "True if everything goes right",
+                        "schema": {
+                            "type": "bool"
+                        }
+                    }
+                }
+            }
+        },
+        "/time-slots/{uuid}": {
+            "put": {
+                "summary": "Update an existing time slot",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Uuid of the time slot to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "New time slot data to update",
+                        "required": true,
+                        "schema": {
+                            "$ref": "schema.json#definitions/TimeSlot"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "True if everything goes right",
+                        "schema": {
+                            "type": "bool"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete a registered time slot",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Uuid of the time slot to remove",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "True if everything goes right",
+                        "schema": {
+                            "type": "bool"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
