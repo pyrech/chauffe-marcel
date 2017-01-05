@@ -39,6 +39,7 @@ generate-api:
 	@echo ""
 	@echo "====================== Generating API ======================="
 	@echo ""
+	rm -rf generated/*
 	./vendor/bin/jane generate ../config/schema.json ChauffeMarcel ChauffeMarcel\\Api generated/
 
 start:
