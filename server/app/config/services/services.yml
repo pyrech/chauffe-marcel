@@ -41,3 +41,12 @@ services:
             - '@chauffe_marcel.api.serializer.normalizers'
             - ['@jane.serializer.json_encoder', '@jane.serializer.raw_encoder']
 
+    chauffe_marcel.command.periodic:
+        class: ChauffeMarcel\Command\PeriodicMarcelCommand
+        arguments:
+            - '@chauffe_marcel.storage'
+            - '@chauffe_marcel.marcel'
+        tags:
+            - { name: console.command }
+
+
