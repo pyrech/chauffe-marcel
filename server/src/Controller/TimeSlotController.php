@@ -15,7 +15,7 @@ class TimeSlotController extends ApiController
     /**
      * @Route("/", name="time_slot_list", methods="GET")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
         $configuration = $this->getConfiguration();
 

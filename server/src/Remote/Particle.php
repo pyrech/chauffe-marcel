@@ -25,7 +25,12 @@ class Particle
         $this->call('disable');
     }
 
-    private function call($action)
+    public function isHeating(): bool
+    {
+        return $this->call('status') === true;
+    }
+
+    private function call(string $action)
     {
         $url = sprintf(
             self::API_ENDPOINT,

@@ -16,7 +16,7 @@ class ModeController extends ApiController
     /**
      * @Route("/", name="mode_get", methods="GET")
      */
-    public function getAction(Request $request)
+    public function getAction()
     {
         $configuration = $this->getConfiguration();
 
@@ -29,7 +29,7 @@ class ModeController extends ApiController
     public function createAction(Request $request)
     {
         $mode = $request->getContent();
-        
+
         if (!in_array($mode, ModeConstant::MODES)) {
             throw new HttpException(Response::HTTP_BAD_REQUEST, 'Invalid mode sent');
         }

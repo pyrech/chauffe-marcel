@@ -42,5 +42,7 @@ abstract class ApiController extends Controller
     protected function updateConfiguration(Configuration $configuration)
     {
         $this->get('chauffe_marcel.storage')->store($configuration);
+
+        $this->get('chauffe_marcel.marcel')->chauffe($configuration);
     }
 }
