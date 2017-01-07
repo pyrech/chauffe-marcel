@@ -1,0 +1,14 @@
+services:
+    chauffe_marcel.event_listener.cors:
+        class: ChauffeMarcel\EventListener\CorsListener
+        arguments:
+            - '%accepted_domains%'
+        tags:
+            - { name: 'kernel.event_subscriber' }
+
+    chauffe_marcel.event_listener.authorization_checker:
+        class: ChauffeMarcel\EventListener\AuthorizationCheckerListener
+        arguments:
+            - '%api_key%'
+        tags:
+            - { name: 'kernel.event_subscriber' }

@@ -13,10 +13,20 @@
     "produces": [
         "application/json"
     ],
+    "securityDefinitions" : {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
     "paths": {
         "/time-slots/": {
             "get": {
                 "summary": "Get list of registered time slots",
+                "security": {
+                    "Bearer": []
+                },
                 "responses": {
                     "200": {
                         "description": "List of time slots",
@@ -29,6 +39,9 @@
             },
             "post": {
                 "summary": "Create a new time slot",
+                "security": {
+                    "Bearer": []
+                },
                 "parameters": [
                     {
                         "name": "body",
@@ -53,6 +66,9 @@
         "/time-slots/{uuid}": {
             "put": {
                 "summary": "Update an existing time slot",
+                "security": {
+                    "Bearer": []
+                },
                 "parameters": [
                     {
                         "name": "uuid",
@@ -82,6 +98,9 @@
             },
             "delete": {
                 "summary": "Delete a registered time slot",
+                "security": {
+                    "Bearer": []
+                },
                 "parameters": [
                     {
                         "name": "uuid",
@@ -104,6 +123,9 @@
         "/mode/": {
             "get": {
                 "summary": "Get the current mode",
+                "security": {
+                    "Bearer": []
+                },
                 "responses": {
                     "200": {
                         "description": "The current mode",
@@ -115,6 +137,9 @@
             },
             "post": {
                 "summary": "Update the current mode",
+                "security": {
+                    "Bearer": []
+                },
                 "parameters": [
                     {
                         "name": "body",

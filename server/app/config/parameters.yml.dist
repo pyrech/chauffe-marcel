@@ -12,3 +12,6 @@ parameters:
     # Domains to allow requesting our API
     accepted_domains: []
 
+    # Key to pass in headers to access the API
+    api_key: ThisIsMyApiKeySoDontForgetToChangeIt
+

@@ -1,5 +1,6 @@
 imports:
     - { resource: jane.yml }
+    - { resource: listeners.yml }
 
 services:
     chauffe_marcel.marcel:
@@ -22,13 +23,6 @@ services:
 
     chauffe_marcel.heating_strategy:
         class: ChauffeMarcel\Configuration\HeatingStrategy
-
-    chauffe_marcel.event_listener.cors:
-        class: ChauffeMarcel\EventListener\CorsListener
-        arguments:
-            - '%accepted_domains%'
-        tags:
-            - { name: 'kernel.event_subscriber' }
 
     chauffe_marcel.api.serializer.normalizers:
         class: ArrayObject
