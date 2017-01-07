@@ -8,8 +8,7 @@
             "ChauffeMarcel\\Api\\": "generated/"
         },
         "classmap": [
-            "app/AppKernel.php",
-            "app/AppCache.php"
+            "app/AppKernel.php"
         ]
     },
     "require": {
