@@ -40,13 +40,19 @@ class AuthorizationCheckerListener implements EventSubscriberInterface
         }
 
         if (!$request->headers->has('Authorization')) {
-            throw new HttpException(Response::HTTP_UNAUTHORIZED);
+            $event->setResponse(new Response('Unauthorized', Response::HTTP_UNAUTHORIZED));
+            $event->stopPropagation();
+
+            return;
         }
 
         $apiKey = $request->headers->get('Authorization');
 
         if ($apiKey !== $this->apiKey) {
-            throw new HttpException(Response::HTTP_UNAUTHORIZED);
+            $event->setResponse(new Response('Unauthorized', Response::HTTP_UNAUTHORIZED));
+            $event->stopPropagation();
+
+            return;
         }
     }
 }
