@@ -12,3 +12,8 @@ services:
             - '%api_key%'
         tags:
             - { name: 'kernel.event_subscriber' }
+
+    chauffe_marcel.event_listener.exception:
+        class: ChauffeMarcel\EventListener\ExceptionListener
+        tags:
+            - { name: 'kernel.event_subscriber' }

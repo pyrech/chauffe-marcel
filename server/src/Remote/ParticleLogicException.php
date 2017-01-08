@@ -2,7 +2,9 @@
 
 namespace ChauffeMarcel\Remote;
 
-class ParticleLogicException extends \Exception
+use ChauffeMarcel\MarcelException;
+
+class ParticleLogicException extends \Exception implements MarcelException
 {
     private $endpoint;
     private $result;
@@ -12,7 +14,10 @@ class ParticleLogicException extends \Exception
         $this->endpoint = $endpoint;
         $this->result = $result;
 
-        parent::__construct('An error happened with the particle\'s logic');
+        parent::__construct(sprintf(
+            'An error happened with the Particle\'s logic when calling "%s"',
+            $endpoint
+        ));
     }
 
     public function getEndpoint(): string

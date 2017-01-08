@@ -2,19 +2,24 @@
 
 namespace ChauffeMarcel\Remote;
 
-class ParticleApiException extends \Exception
+use ChauffeMarcel\MarcelException;
+
+class ParticleApiException extends \Exception implements MarcelException
 {
-    private $url;
+    private $endpoint;
 
-    public function __construct(string $url)
+    public function __construct(string $endpoint)
     {
-        $this->url = $url;
+        $this->endpoint = $endpoint;
 
-        parent::__construct('An error happened when calling Particle\'s API');
+        parent::__construct(sprintf(
+            'An error happened with the Particle\'s API when calling "%s"',
+            $endpoint
+        ));
     }
 
-    public function getUrl(): string
+    public function getEndpoint(): string
     {
-        return $this->url;
+        return $this->endpoint;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace ChauffeMarcel\Configuration;
 
-class StorageException extends \Exception
+use ChauffeMarcel\MarcelException;
+
+class StorageException extends \Exception implements MarcelException
 {
 }

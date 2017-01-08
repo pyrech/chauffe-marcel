@@ -34,6 +34,11 @@
                             "type": "array",
                             "items": { "$ref": "schema.json#definitions/TimeSlot" }
                         }
+                    },
+                    "500": {
+                        "schema": {
+                            "$ref": "schema.json#definitions/Error"
+                        }
                     }
                 }
             },
@@ -58,6 +63,11 @@
                         "description": "True if everything goes right",
                         "schema": {
                             "type": "bool"
+                        }
+                    },
+                    "500": {
+                        "schema": {
+                            "$ref": "schema.json#definitions/Error"
                         }
                     }
                 }
@@ -93,6 +103,11 @@
                         "schema": {
                             "type": "bool"
                         }
+                    },
+                    "500": {
+                        "schema": {
+                            "$ref": "schema.json#definitions/Error"
+                        }
                     }
                 }
             },
@@ -116,6 +131,11 @@
                         "schema": {
                             "type": "bool"
                         }
+                    },
+                    "500": {
+                        "schema": {
+                            "$ref": "schema.json#definitions/Error"
+                        }
                     }
                 }
             }
@@ -131,6 +151,11 @@
                         "description": "The current mode",
                         "schema": {
                             "$ref": "schema.json#definitions/Mode"
+                        }
+                    },
+                    "500": {
+                        "schema": {
+                            "$ref": "schema.json#definitions/Error"
                         }
                     }
                 }
@@ -157,7 +182,25 @@
                         "schema": {
                             "type": "bool"
                         }
+                    },
+                    "500": {
+                        "schema": {
+                            "$ref": "schema.json#definitions/Error"
+                        }
                     }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Error": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "bool"
+                },
+                "message": {
+                    "type": "string"
                 }
             }
         }
