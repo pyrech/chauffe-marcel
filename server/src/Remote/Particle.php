@@ -17,37 +17,65 @@ class Particle
 
     public function enable()
     {
-        $this->call('enable');
+        $this->callFunction('enable');
     }
 
     public function disable()
     {
-        $this->call('disable');
+        $this->callFunction('disable');
     }
 
     public function isHeating(): bool
     {
-        return $this->call('status') === true;
+        return $this->getVariable('status') === true;
     }
 
-    private function call(string $action)
+    private function callFunction(string $name)
     {
-        $url = sprintf(
+        $url = $this->getUrl($name);
+        $result = $this->call($url, 'POST');
+
+        if (empty($result['return_value'])) {
+            throw new ParticleLogicException($name, $result);
+        }
+    }
+
+    private function getVariable(string $name)
+    {
+        $url = $this->getUrl($name);
+        $result = $this->call($url, 'GET');
+
+        if (!isset($result['cmd']) || $result['cmd'] !== 'VarReturn' || !array_key_exists('result', $result)) {
+            throw new ParticleLogicException($name, $result);
+        }
+
+        return $result['result'];
+    }
+
+    private function getUrl(string $endpoint): string
+    {
+        return sprintf(
             self::API_ENDPOINT,
             $this->deviceId,
-            $action,
+            $endpoint,
             $this->accessToken
         );
+    }
 
+    private function call($url, string $method): array
+    {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $method);
 
-        $result = json_decode(curl_exec($curl));
+        $result = json_decode(curl_exec($curl), true);
         curl_close($curl);
 
-        if (!$result || !isset($result->return_value)) {
-            throw new ParticleException($action, $result);
+        if (!$result) {
+            throw new ParticleApiException($url);
         }
+
+        return $result;
     }
 }
