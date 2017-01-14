@@ -20,13 +20,26 @@
             "in": "header"
         }
     },
+    "security": [
+        {
+            "$ref": [
+                "#/securityDefinitions/Bearer"
+            ]
+        }
+    ],
+    "tags": [
+        {
+            "name": "Time slot"
+        },
+        {
+            "name": "Mode"
+        }
+    ],
     "paths": {
         "/time-slots/": {
             "get": {
                 "summary": "Get list of registered time slots",
-                "security": {
-                    "Bearer": []
-                },
+                "tags": ["Time slot"],
                 "responses": {
                     "200": {
                         "description": "List of time slots",
@@ -36,6 +49,7 @@
                         }
                     },
                     "500": {
+                        "description": "In case something goes wrong",
                         "schema": {
                             "$ref": "schema.json#definitions/Error"
                         }
@@ -44,9 +58,7 @@
             },
             "post": {
                 "summary": "Create a new time slot",
-                "security": {
-                    "Bearer": []
-                },
+                "tags": ["Time slot"],
                 "parameters": [
                     {
                         "name": "body",
@@ -62,10 +74,11 @@
                     "200": {
                         "description": "True if everything goes right",
                         "schema": {
-                            "type": "bool"
+                            "type": "boolean"
                         }
                     },
                     "500": {
+                        "description": "In case something goes wrong",
                         "schema": {
                             "$ref": "schema.json#definitions/Error"
                         }
@@ -76,9 +89,7 @@
         "/time-slots/{uuid}": {
             "put": {
                 "summary": "Update an existing time slot",
-                "security": {
-                    "Bearer": []
-                },
+                "tags": ["Time slot"],
                 "parameters": [
                     {
                         "name": "uuid",
@@ -101,10 +112,11 @@
                     "200": {
                         "description": "True if everything goes right",
                         "schema": {
-                            "type": "bool"
+                            "type": "boolean"
                         }
                     },
                     "500": {
+                        "description": "In case something goes wrong",
                         "schema": {
                             "$ref": "schema.json#definitions/Error"
                         }
@@ -113,9 +125,7 @@
             },
             "delete": {
                 "summary": "Delete a registered time slot",
-                "security": {
-                    "Bearer": []
-                },
+                "tags": ["Time slot"],
                 "parameters": [
                     {
                         "name": "uuid",
@@ -129,10 +139,11 @@
                     "200": {
                         "description": "True if everything goes right",
                         "schema": {
-                            "type": "bool"
+                            "type": "boolean"
                         }
                     },
                     "500": {
+                        "description": "In case something goes wrong",
                         "schema": {
                             "$ref": "schema.json#definitions/Error"
                         }
@@ -143,9 +154,7 @@
         "/mode/": {
             "get": {
                 "summary": "Get the current mode",
-                "security": {
-                    "Bearer": []
-                },
+                "tags": ["Mode"],
                 "responses": {
                     "200": {
                         "description": "The current mode",
@@ -154,6 +163,7 @@
                         }
                     },
                     "500": {
+                        "description": "In case something goes wrong",
                         "schema": {
                             "$ref": "schema.json#definitions/Error"
                         }
@@ -162,9 +172,7 @@
             },
             "post": {
                 "summary": "Update the current mode",
-                "security": {
-                    "Bearer": []
-                },
+                "tags": ["Mode"],
                 "parameters": [
                     {
                         "name": "body",
@@ -180,10 +188,11 @@
                     "200": {
                         "description": "True if everything goes right",
                         "schema": {
-                            "type": "bool"
+                            "type": "boolean"
                         }
                     },
                     "500": {
+                        "description": "In case something goes wrong",
                         "schema": {
                             "$ref": "schema.json#definitions/Error"
                         }
@@ -197,7 +206,7 @@
             "type": "object",
             "properties": {
                 "error": {
-                    "type": "bool"
+                    "type": "boolean"
                 },
                 "message": {
                     "type": "string"
