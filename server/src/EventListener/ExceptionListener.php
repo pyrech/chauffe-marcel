@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class ExceptionListener implements EventSubscriberInterface
@@ -39,10 +40,14 @@ class ExceptionListener implements EventSubscriberInterface
             'error' => true,
             'message' => $exception instanceof MarcelException
                 ? $exception->getMessage()
-                : 'Internal server error',
+                : ($exception instanceof HttpExceptionInterface ? $exception->getMessage() : 'Internal server error'),
         ];
 
-        $event->setResponse(new JsonResponse($data, Response::HTTP_INTERNAL_SERVER_ERROR));
+        $event->setResponse(new JsonResponse(
+            $data,
+            $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : Response::HTTP_INTERNAL_SERVER_ERROR,
+            $exception instanceof HttpExceptionInterface ? $exception->getHeaders() : []
+        ));
         $event->stopPropagation();
     }
 }
