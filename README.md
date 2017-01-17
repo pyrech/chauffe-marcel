@@ -45,8 +45,8 @@ is a simple on/off override.
 
 What we can configure is the mode that will be forced when bridging H1 and the
 ground. The documentation says that operating line 172 can take values from
-0 to 3. Is also adds that "the RVL470 will resume the operating mode previously
-selected" when H1. So here is our plan :
+0 to 3. It also adds that "the RVL470 will resume the operating mode previously
+selected" when H1 is disconnected from the ground. So here is our plan :
 
 We will put the RVL470 on `Continuous REDUCED heating` and we will configure
 the mode forced on `NORMAL heating`.
