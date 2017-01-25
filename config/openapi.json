@@ -38,6 +38,7 @@
     "paths": {
         "/time-slots/": {
             "get": {
+                "operationId": "getTimeSlots",
                 "summary": "Get list of registered time slots",
                 "tags": ["Time slot"],
                 "responses": {
@@ -57,6 +58,7 @@
                 }
             },
             "post": {
+                "operationId": "createTimeSlot",
                 "summary": "Create a new time slot",
                 "tags": ["Time slot"],
                 "parameters": [
@@ -88,6 +90,7 @@
         },
         "/time-slots/{uuid}": {
             "put": {
+                "operationId": "updateTimeSlot",
                 "summary": "Update an existing time slot",
                 "tags": ["Time slot"],
                 "parameters": [
@@ -124,6 +127,7 @@
                 }
             },
             "delete": {
+                "operationId": "deleteTimeSlot",
                 "summary": "Delete a registered time slot",
                 "tags": ["Time slot"],
                 "parameters": [
@@ -153,6 +157,7 @@
         },
         "/mode/": {
             "get": {
+                "operationId": "getMode",
                 "summary": "Get the current mode",
                 "tags": ["Mode"],
                 "responses": {
@@ -171,6 +176,7 @@
                 }
             },
             "post": {
+                "operationId": "updateMode",
                 "summary": "Update the current mode",
                 "tags": ["Mode"],
                 "parameters": [
