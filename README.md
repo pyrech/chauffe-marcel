@@ -88,3 +88,4 @@ This project consists of several components:
 - [`config`](config/), JSON schema and swagger of server's API
 - [`particle`](particle/), code running on the Particle
 - [`sdk-js`](sdk-js/), JavaScript sdk for the API
+- [`mobile`](mobile/), mobile application build on top of React Native
