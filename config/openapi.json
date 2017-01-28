@@ -87,6 +87,34 @@
             }
         },
         "/time-slots/{uuid}": {
+            "get": {
+                "operationId": "getTimeSlot",
+                "summary": "Retrieve an existing time slot",
+                "tags": ["Time slot"],
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Uuid of the time slot to retrieve",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The wanted time slot",
+                        "schema": {
+                            "$ref": "schema.json#definitions/TimeSlot"
+                        }
+                    },
+                    "500": {
+                        "description": "In case something goes wrong",
+                        "schema": {
+                            "$ref": "schema.json#definitions/Error"
+                        }
+                    }
+                }
+            },
             "put": {
                 "operationId": "updateTimeSlot",
                 "summary": "Update an existing time slot",

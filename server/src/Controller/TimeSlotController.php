@@ -43,6 +43,21 @@ class TimeSlotController extends ApiController
     }
 
     /**
+     * @Route("/{uuid}", name="time_slot_get", methods="GET")
+     */
+    public function getAction(Request $request, string $uuid)
+    {
+        $configuration = $this->getConfiguration();
+
+        $timeSlots = $configuration->getTimeSlots();
+        $timeSlots = array_filter($timeSlots, function(TimeSlot $timeSlot) use ($uuid) {
+            return $timeSlot->getUuid() === $uuid;
+        });
+
+        return $this->renderData($timeSlots[0]);
+    }
+
+    /**
      * @Route("/{uuid}", name="time_slot_update", methods="PUT")
      */
     public function updateAction(Request $request, string $uuid)
