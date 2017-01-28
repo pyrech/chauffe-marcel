@@ -7,6 +7,8 @@ use ChauffeMarcel\Api\Model\TimeSlot;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 /**
  * @Route("/api/time-slots")
@@ -29,6 +31,8 @@ class TimeSlotController extends ApiController
     public function createAction(Request $request)
     {
         $timeSlot = $this->receiveData($request, TimeSlot::class);
+
+        $this->assertTimeSlotIsValid($timeSlot);
         $timeSlot->setUuid(Uuid::uuid4()->toString());
 
         $configuration = $this->getConfiguration();
@@ -45,7 +49,7 @@ class TimeSlotController extends ApiController
     /**
      * @Route("/{uuid}", name="time_slot_get", methods="GET")
      */
-    public function getAction(Request $request, string $uuid)
+    public function getAction(string $uuid)
     {
         $configuration = $this->getConfiguration();
 
@@ -59,9 +63,11 @@ class TimeSlotController extends ApiController
      */
     public function updateAction(Request $request, string $uuid)
     {
-        $configuration = $this->getConfiguration();
-
         $timeSlot = $this->receiveData($request, TimeSlot::class);
+
+        $this->assertTimeSlotIsValid($timeSlot);
+
+        $configuration = $this->getConfiguration();
 
         $timeSlotToUpdate = $this->getTimeSlot($configuration, $uuid);
         $timeSlotToUpdate->setStart($timeSlot->getStart());
@@ -103,5 +109,25 @@ class TimeSlotController extends ApiController
         }
 
         return array_shift($timeSlots);
+    }
+
+    private function assertTimeSlotIsValid(TimeSlot $timeSlot)
+    {
+        if (!$this->validateTime($timeSlot->getStart())) {
+            throw new HttpException(Response::HTTP_BAD_REQUEST, 'Start time should have format like "15:30"');
+        }
+
+        if (!$this->validateTime($timeSlot->getEnd())) {
+            throw new HttpException(Response::HTTP_BAD_REQUEST, 'End time should have format like "15:30"');
+        }
+
+        if (!is_int($timeSlot->getDayOfWeek()) || $timeSlot->getDayOfWeek() < 1 || $timeSlot->getDayOfWeek() > 7 ) {
+            throw new HttpException(Response::HTTP_BAD_REQUEST, 'Day of week should be between 1 and 7');
+        }
+    }
+
+    private function validateTime(string $time): bool
+    {
+        return preg_match('/^[0-2]\d:[0-5]\d$/', $time);
     }
 }
