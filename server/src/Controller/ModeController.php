@@ -26,9 +26,9 @@ class ModeController extends ApiController
     /**
      * @Route("/", name="mode_update", methods="POST")
      */
-    public function createAction(Request $request)
+    public function updateAction(Request $request)
     {
-        $mode = $request->getContent();
+        $mode = trim((string)$request->getContent(), "\" \t\n\r\0\x0B");
 
         if (!in_array($mode, ModeConstant::MODES)) {
             throw new HttpException(Response::HTTP_BAD_REQUEST, 'Invalid mode sent');
