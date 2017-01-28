@@ -22,9 +22,7 @@
     },
     "security": [
         {
-            "$ref": [
-                "#/securityDefinitions/Bearer"
-            ]
+            "Bearer": []
         }
     ],
     "tags": [

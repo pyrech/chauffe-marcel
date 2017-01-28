@@ -39,7 +39,7 @@ class TimeSlotController extends ApiController
 
         $this->updateConfiguration($configuration);
 
-        return $this->renderData(true);
+        return $this->renderData($timeSlot->getUuid());
     }
 
     /**
