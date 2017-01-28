@@ -49,12 +49,9 @@ class TimeSlotController extends ApiController
     {
         $configuration = $this->getConfiguration();
 
-        $timeSlots = $configuration->getTimeSlots();
-        $timeSlots = array_filter($timeSlots, function(TimeSlot $timeSlot) use ($uuid) {
-            return $timeSlot->getUuid() === $uuid;
-        });
+        $timeSlot = $this->getTimeSlot($configuration, $uuid);
 
-        return $this->renderData($timeSlots[0]);
+        return $this->renderData($timeSlot);
     }
 
     /**
