@@ -3,6 +3,7 @@
 namespace ChauffeMarcel\EventListener;
 
 use ChauffeMarcel\MarcelException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,6 +15,13 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class ExceptionListener implements EventSubscriberInterface
 {
+    private $logger;
+
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -42,6 +50,8 @@ class ExceptionListener implements EventSubscriberInterface
                 ? $exception->getMessage()
                 : ($exception instanceof HttpExceptionInterface ? $exception->getMessage() : 'Internal server error'),
         ];
+
+        $this->logger->error($exception->getMessage());
 
         $event->setResponse(new JsonResponse(
             $data,

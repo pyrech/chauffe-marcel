@@ -15,5 +15,7 @@ services:
 
     chauffe_marcel.event_listener.exception:
         class: ChauffeMarcel\EventListener\ExceptionListener
+        arguments:
+            - '@monolog.logger'
         tags:
             - { name: 'kernel.event_subscriber' }
