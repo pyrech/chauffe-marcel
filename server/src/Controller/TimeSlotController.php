@@ -29,7 +29,7 @@ class TimeSlotController extends ApiController
     public function createAction(Request $request)
     {
         $timeSlot = $this->receiveData($request, TimeSlot::class);
-        $timeSlot->setUuid(Uuid::uuid4());
+        $timeSlot->setUuid(Uuid::uuid4()->toString());
 
         $configuration = $this->getConfiguration();
 
