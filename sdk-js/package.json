@@ -1,0 +1,11 @@
+{
+    "name": "chauffe-marcel-sdk",
+    "version": "1.0",
+    "main": "index.js",
+    "devDependencies": {
+        "fetch-openapi": "0.5"
+    },
+    "scripts": {
+        "generate": "fetch-openapi --api-doc-file-path ../config/openapi.json --output-file-path ./index.js --preset es6"
+    }
+}

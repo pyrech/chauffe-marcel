@@ -87,5 +87,4 @@ This project consists of several components:
 - [`server`](server/), a PHP application - exposing a REST API, storing configuration and calling Particle's endpoints
 - [`config`](config/), JSON schema and swagger of server's API
 - [`particle`](particle/), code running on the Particle
-
-A mobile application is planned.
+- [`sdk-js`](sdk-js/), JavaScript sdk for the API
