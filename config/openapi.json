@@ -72,9 +72,9 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "True if everything goes right",
+                        "description": "The uuid of the new time slot if everything goes right",
                         "schema": {
-                            "type": "boolean"
+                            "type": "string"
                         }
                     },
                     "500": {
