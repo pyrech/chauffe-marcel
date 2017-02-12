@@ -38,26 +38,38 @@ class ExceptionListener implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-        if (!$event->isMasterRequest() || strpos($request->getPathInfo(), '/api') !== 0) {
+        if (!$event->isMasterRequest()) {
             return;
         }
 
         $exception = $event->getException();
+        $code = $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : Response::HTTP_INTERNAL_SERVER_ERROR;
+        $message = $exception instanceof MarcelException
+            ? $exception->getMessage()
+            : ($exception instanceof HttpExceptionInterface ? $exception->getMessage() : 'Internal server error');
+        $headers = $exception instanceof HttpExceptionInterface ? $exception->getHeaders() : [];
 
-        $data = [
-            'error' => true,
-            'message' => $exception instanceof MarcelException
-                ? $exception->getMessage()
-                : ($exception instanceof HttpExceptionInterface ? $exception->getMessage() : 'Internal server error'),
-        ];
+        if (strpos($request->getPathInfo(), '/api') !== 0) {
+            $html = <<<HTML
+<html>
+<head><title>$message</title></head>
+<body>$message</body>
+</html>
+HTML;
+
+            $response = new Response($html, $code, $headers);
+        } else {
+            $data = [
+                'error' => true,
+                'message' => $message,
+            ];
+
+            $response = new JsonResponse($data, $code, $headers);
+        }
 
         $this->logger->error($exception->getMessage());
 
-        $event->setResponse(new JsonResponse(
-            $data,
-            $exception instanceof HttpExceptionInterface ? $exception->getStatusCode() : Response::HTTP_INTERNAL_SERVER_ERROR,
-            $exception instanceof HttpExceptionInterface ? $exception->getHeaders() : []
-        ));
+        $event->setResponse($response);
         $event->stopPropagation();
     }
 }
