@@ -7,6 +7,8 @@ It allows to create/edit time slots and to force the mode of heating.
 
 Icons used in the application are made by [Icons8](https://icons8.com/web-app/) 
 
+![Chauffe-Marcel mobile application](../doc/mobile_app.png)
+
 ## Requirement
 
 - Node.js 4+

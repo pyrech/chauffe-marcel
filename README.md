@@ -5,6 +5,8 @@ This project allows to remotely control a heating controller.
 It was designed to control a Siemens RVL470 but it should work with any heating
 controller whose operating mode can be manually overridden.
 
+![Chauffe-Marcel mobile application](doc/mobile_app.png)
+
 ## Origin
 
 My heating controller - a Siemens RVL470 - is responsible to control the

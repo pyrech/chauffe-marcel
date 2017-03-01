@@ -218,11 +218,13 @@ export default class App extends Component {
                         onSave={this.onSaveConfiguration}
                     />
                 </Modal>
-                <ActivityIndicator
-                    animating={this.state.displayIndicator}
-                    style={[styles.centering, {height: 80}]}
-                    size="large"
-                />
+                { false && this.state.displayIndicator &&
+                    <ActivityIndicator
+                        animating={this.state.displayIndicator}
+                        style={[styles.centering, {height: 80}]}
+                        size="large"
+                    />
+                }
             </ScrollView>
         );
     }
