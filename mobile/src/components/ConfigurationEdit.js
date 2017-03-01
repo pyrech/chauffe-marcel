@@ -40,8 +40,12 @@ export default class ConfigurationEdit extends Component {
                 {this.renderTextRow('API url', this.state.host, (value) => this.setState({host: value}))}
                 {this.renderTextRow('API key', this.state.apiKey, (value) => this.setState({apiKey: value}))}
                 <View style={styles.footerButtons}>
-                    <Button onPress={() => this.props.onTest(this.state.host, this.state.apiKey)} title="Test" color="blue" accessibilityLabel="Test is given configuration is working" />
-                    <Button onPress={() => this.props.onSave(this.state.host, this.state.apiKey)} title="Save" color="green" accessibilityLabel="Save the given configuration" />
+                    <View style={styles.buttonWrapper}>
+                        <Button onPress={() => this.props.onTest(this.state.host, this.state.apiKey)} title="Test" color="#0384FF" accessibilityLabel="Test is given configuration is working" />
+                    </View>
+                    <View style={styles.buttonWrapper}>
+                        <Button onPress={() => this.props.onSave(this.state.host, this.state.apiKey)} title="Save" color="#55D062" accessibilityLabel="Save the given configuration" />
+                    </View>
                 </View>
             </View>
         );
@@ -66,5 +70,8 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         marginRight: 10,
         paddingTop: 2,
+    },
+    buttonWrapper: {
+        marginTop: 20,
     },
 });

@@ -40,20 +40,22 @@ export default class TimeTable extends Component {
         day = parseInt(day);
 
         const timeSlots = this.timeSlotsByDay && this.timeSlotsByDay[day] || [];
-        const style = {
-            height: this.props.dayHeight
-        };
+        const dayStyles = [ styles.day ];
+        const dayLabelStyles = [ styles.dayLabel ];
         const now = new Date();
         const currentDay = (now.getDay()) || 7;
 
         let nowLine = null;
 
+        dayStyles.push({
+            height: this.props.dayHeight
+        });
+
         if (!this.props.enabled) {
-            style.backgroundColor = 'gray';
+            dayStyles.push(styles.dayBackgroundDisabled);
         }
 
         if (currentDay === day) {
-            style.backgroundColor = 'gray';
             nowLine = <View
                 key={'nowLine'}
                 style={[
@@ -63,15 +65,16 @@ export default class TimeTable extends Component {
                     },
                 ]}
             />;
+            dayLabelStyles.push(styles.currentDayLabel);
         }
 
         return (
-            <View
-                key={'day-' + day}
-                style={[styles.day, style]}
-            >
-                {timeSlots.map(this.renderTimeSlot)}
-                {nowLine}
+            <View key={'day-' + day} style={styles.dayWrapper}>
+                <Text style={dayLabelStyles}>{DAYS[day].slice(0, 2)}</Text>
+                <View style={dayStyles}>
+                    {timeSlots.map(this.renderTimeSlot)}
+                    {nowLine}
+                </View>
             </View>
         );
     }
@@ -86,7 +89,7 @@ export default class TimeTable extends Component {
                 onPress={() => this.props.onTimeSlotPress(timeSlot)}
             >
                 <View style={[styles.timeSlot, {top, height}]}>
-                    <Text>{timeSlot.start + ' - ' + timeSlot.end}</Text>
+                    <Text style={styles.time}>{timeSlot.start + ' - ' + timeSlot.end}</Text>
                 </View>
             </TouchableNativeFeedback>
         );
@@ -121,23 +124,40 @@ const styles = StyleSheet.create({
         paddingLeft: 2,
         paddingRight: 2,
     },
+    dayWrapper : {
+        flex: 0.12,
+    },
+    dayLabel: {
+        textAlign: 'center',
+        color: '#DDDDDD',
+    },
+    currentDayLabel: {
+        fontWeight: 'bold',
+        color: '#252B32',
+    },
     day: {
         position: 'relative',
-        flex: 0.12,
         marginLeft: 2,
         marginRight: 2,
-        borderColor: 'black',
-        borderWidth: 1,
+        backgroundColor: '#EEEFF2',
+    },
+    dayBackgroundDisabled: {
+        backgroundColor: '#818184',
     },
     timeSlot: {
         position: 'absolute',
-        backgroundColor: 'green',
+        backgroundColor: '#252B32',
+        padding: 5,
+    },
+    time: {
+        fontSize: 12,
+        color: 'white',
     },
     nowLine: {
         position: 'absolute',
         height: 1,
         left: 0,
         right: 0,
-        backgroundColor: 'red',
-    }
+        backgroundColor: '#FF4A6A',
+    },
 });

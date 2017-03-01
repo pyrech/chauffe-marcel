@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import {
+    ActivityIndicator,
     Alert,
     AsyncStorage,
     Button,
+    ScrollView,
     StyleSheet,
     Text,
-    View
+    Vibration,
+    View,
 } from 'react-native';
 import { STORE_KEYS } from '../constants/storage.js';
 import ConfigurationEdit from './ConfigurationEdit.js';
@@ -14,6 +17,7 @@ import ModeBar from './ModeBar.js';
 import TimeTable from './TimeTable.js';
 import Modal from './Modal.js';
 import { checkStatus, toJson } from '../utils/api';
+import { MODES } from '../constants/mode.js';
 import sdk from 'chauffe-marcel-sdk';
 
 export default class App extends Component {
@@ -28,6 +32,7 @@ export default class App extends Component {
             timeSlotEdited: null,
             timeSlotEditVisible: false,
             configurationEditVisible: false,
+            displayIndicator: true,
         };
 
         AsyncStorage.multiGet(
@@ -49,6 +54,7 @@ export default class App extends Component {
         this.fetchMode = this.fetchMode.bind(this);
         this.fetchTimeSlots = this.fetchTimeSlots.bind(this);
         this.fetchTimeSlot = this.fetchTimeSlot.bind(this);
+        this.vibrateOnButtonPress = this.vibrateOnButtonPress.bind(this);
         this.onChangeMode = this.onChangeMode.bind(this);
         this.onRefresh = this.onRefresh.bind(this);
         this.onSaveTimeSlot = this.onSaveTimeSlot.bind(this);
@@ -82,11 +88,20 @@ export default class App extends Component {
                         mode: data,
                     });
                 })
+                .catch(err => {
+                    Alert.alert(
+                        'Problem detected',
+                        err.message,
+                        [
+                            {text: 'OK'},
+                        ]
+                    )
+                })
             ;
         }
     }
 
-    fetchTimeSlots() {
+    fetchTimeSlots(handleError = true) {
         if (this.client) {
             const timeSlots = this.client.getTimeSlots();
 
@@ -99,6 +114,17 @@ export default class App extends Component {
                     this.setState({
                         timeSlots: timeSlotsByUuid,
                     });
+                })
+                .catch(err => {
+                    if (handleError) {
+                        Alert.alert(
+                            'Problem detected',
+                            err.message,
+                            [
+                                {text: 'OK'},
+                            ]
+                        )
+                    }
                 })
             ;
         }
@@ -118,25 +144,41 @@ export default class App extends Component {
                         timeSlots: timeSlotsByUuid,
                     });
                 })
+                .catch(error => {
+                    if (handleError) {
+                        Alert.alert(
+                            'Problem detected',
+                            err.message,
+                            [
+                                {text: 'OK'},
+                            ]
+                        )
+                    }
+                })
             ;
         }
     }
 
+    vibrateOnButtonPress() {
+        Vibration.vibrate([0, 50]);
+    }
+
     render() {
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <ModeBar
                     activeMode={this.state.mode}
                     onModeChange={this.onChangeMode}
                 />
                 <View style={styles.refreshButtons}>
-                    <Button onPress={this.onRefresh} title="Refresh" color="green" accessibilityLabel="Refresh data from the server (mode, time slots)" />
+                    <Button onPress={this.onRefresh} title="Refresh" color="#0384FF" accessibilityLabel="Refresh data from the server (mode, time slots)" />
                 </View>
                 <TimeTable
-                    enabled={this.state.mode === 'not_forced'}
-                    dayHeight={350}
+                    enabled={this.state.mode === MODES.NOT_FORCED}
+                    dayHeight={320}
                     timeSlots={this.state.timeSlots}
                     onTimeSlotPress={(timeSlot) => {
+                        this.vibrateOnButtonPress();
                         this.setState({
                             timeSlotEdited: timeSlot,
                             timeSlotEditVisible: true,
@@ -144,8 +186,14 @@ export default class App extends Component {
                     }}
                 />
                 <View style={styles.footerButtons}>
-                    <Button onPress={() => this.setState({timeSlotEdited: null, timeSlotEditVisible: true})} title="Create time slot" color="red" accessibilityLabel="Add a new time slot to the weekly program" />
-                    <Button onPress={() => this.setState({configurationEditVisible: true})} title="Configure server" color="blue" accessibilityLabel="Configure server's domain and api key" />
+                    <Button onPress={() => {
+                        this.vibrateOnButtonPress();
+                        this.setState({timeSlotEdited: null, timeSlotEditVisible: true})
+                    }} title="Create time slot" color="#55D062" accessibilityLabel="Add a new time slot to the weekly program" />
+                    <Button onPress={() => {
+                        this.vibrateOnButtonPress();
+                        this.setState({configurationEditVisible: true})
+                    }} title="Configure server" color="#0384FF" accessibilityLabel="Configure server's domain and api key" />
                 </View>
                 <Modal
                     title={this.state.timeSlotEdited ? 'Editing time slot' : 'Creating time slot'}
@@ -170,11 +218,17 @@ export default class App extends Component {
                         onSave={this.onSaveConfiguration}
                     />
                 </Modal>
-            </View>
+                <ActivityIndicator
+                    animating={this.state.displayIndicator}
+                    style={[styles.centering, {height: 80}]}
+                    size="large"
+                />
+            </ScrollView>
         );
     }
 
     onChangeMode(mode) {
+        this.vibrateOnButtonPress();
         this.client.updateMode({
             body: mode,
         })
@@ -198,11 +252,13 @@ export default class App extends Component {
     }
 
     onRefresh() {
+        this.vibrateOnButtonPress();
         this.fetchMode();
-        this.fetchTimeSlots();
+        this.fetchTimeSlots(false);
     }
 
     onSaveTimeSlot(timeSlot) {
+        this.vibrateOnButtonPress();
         if (timeSlot.uuid) {
             this.client.updateTimeSlot({
                 uuid: timeSlot.uuid,
@@ -252,6 +308,7 @@ export default class App extends Component {
     }
 
     onRemoveTimeSlot(timeSlot) {
+        this.vibrateOnButtonPress();
         if (!timeSlot.uuid) {
             return;
         }
@@ -282,6 +339,7 @@ export default class App extends Component {
     }
 
     onTestConfiguration(host, apiKey) {
+        this.vibrateOnButtonPress();
         const testClient = this.createClient(host, apiKey);
         const mode = testClient.getMode();
 
@@ -310,6 +368,7 @@ export default class App extends Component {
     }
 
     onSaveConfiguration(host, apiKey) {
+        this.vibrateOnButtonPress();
         AsyncStorage
             .multiSet(
                 [
@@ -344,9 +403,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'space-between',
-        alignItems: 'stretch',
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#FFFFFF',
     },
     refreshButtons: {
         marginTop: 20,

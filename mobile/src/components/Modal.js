@@ -19,15 +19,17 @@ export default class Modal extends Component {
                 onOrientationChange={() => {}}
             >
                 <View style={styles.modal}>
-                    <TouchableNativeFeedback style={styles.shadow} onPress={this.props.onRequestClose}>
-                        <View></View>
+                    <TouchableNativeFeedback style={styles.background} onPress={this.props.onRequestClose}>
+                        <View style={styles.backgroundView}></View>
                     </TouchableNativeFeedback>
-                    <ScrollView style={styles.container}>
+                    <View style={styles.container}>
                         {this.props.title ?
                             <Text style={styles.title}>{this.props.title}</Text>
-                        : null}
-                        {this.props.children}
-                    </ScrollView>
+                            : null}
+                        <ScrollView style={styles.content}>
+                            {this.props.children}
+                        </ScrollView>
+                    </View>
                 </View>
             </ReactModal>
         );
@@ -44,22 +46,36 @@ const styles = StyleSheet.create({
     modal: {
         position: 'relative',
         flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
         justifyContent: 'center',
         alignItems: 'center',
     },
-    shadow: {
+    background: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
+    backgroundView: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 1)',
+        alignSelf: 'stretch',
     },
     container: {
-        maxHeight: 450,
-        backgroundColor: 'white',
-        padding: 20,
+        position: 'absolute',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     title: {
-        padding: 20,
-        color: 'black',
+        backgroundColor: '#242A31',
+        padding: 10,
+        color: 'white',
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 15,
+        textAlign: 'center',
+    },
+    content: {
+        backgroundColor: 'white',
+        padding: 20,
     },
 });

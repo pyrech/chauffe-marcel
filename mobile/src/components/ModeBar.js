@@ -6,7 +6,7 @@ import {
     View,
     StyleSheet,
 } from 'react-native';
-import { MODES } from '../constants/mode.js'
+import { MODES } from '../constants/mode.js';
 
 export default class ModeBar extends Component {
     constructor(props) {
@@ -19,13 +19,13 @@ export default class ModeBar extends Component {
         let icon;
         // The image name in require has to be known statically
         switch (mode) {
-            case 'forced_on':
+            case MODES.FORCED_ON:
                 icon = require('../assets/mode/forced_on.png');
                 break;
-            case 'forced_off':
+            case MODES.FORCED_OFF:
                 icon = require('../assets/mode/forced_off.png');
                 break;
-            case 'not_forced':
+            case MODES.NOT_FORCED:
                 icon = require('../assets/mode/not_forced.png');
                 break;
         }
@@ -44,8 +44,8 @@ export default class ModeBar extends Component {
                         source={icon}
                     />
                     {
-                        mode !== this.props.activeMode
-                        ? <View style={styles.unactive}></View>
+                        mode === this.props.activeMode
+                        ? <View style={styles.active}></View>
                         : null
                     }
                 </View>
@@ -54,7 +54,7 @@ export default class ModeBar extends Component {
     }
 
     render() {
-        const buttons = MODES.map(this.renderModeButton);
+        const buttons = Object.keys(MODES).map(key => this.renderModeButton(MODES[key]));
 
         return (
             <View style={styles.container}>
@@ -78,13 +78,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingTop: 10,
-        paddingLeft: 10,
+        paddingLeft: 30,
         paddingBottom: 10,
-        backgroundColor: 'red',
+        backgroundColor: '#1D232A',
     },
     title: {
         color: 'white',
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
     },
     modes: {
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
     },
-    unactive: {
+    active: {
         backgroundColor: '#000000',
         opacity: 0.6,
         width: 40,

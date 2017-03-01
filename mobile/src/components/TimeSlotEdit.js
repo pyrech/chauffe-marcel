@@ -84,8 +84,14 @@ export default class TimeSlotEdit extends Component {
                     this.setState({timeSlot});
                 })}
                 <View style={styles.footerButtons}>
-                    <Button onPress={() => this.props.onSave(this.state.timeSlot)} title="Save" color="green" accessibilityLabel="Save the time slot" />
-                    { this.state.timeSlot.uuid && <Button onPress={() => this.props.onRemove(this.state.timeSlot)} title="Remove" color="red" accessibilityLabel="Remove the time slot" /> }
+                    <View style={styles.buttonWrapper}>
+                        <Button onPress={() => this.props.onSave(this.state.timeSlot)} title="Save" color="#55D062" accessibilityLabel="Save the time slot" />
+                    </View>
+                    { this.state.timeSlot.uuid &&
+                        <View style={styles.buttonWrapper}>
+                            <Button onPress={() => this.props.onRemove(this.state.timeSlot)} title="Remove" color="#FF4A6A" accessibilityLabel="Remove the time slot" />
+                        </View>
+                    }
                 </View>
             </View>
         );
@@ -98,6 +104,8 @@ TimeSlotEdit.propTypes = {
 };
 
 const styles = StyleSheet.create({
+    container: {
+    },
     rowContainer: {
         flexDirection: 'column',
         marginVertical: 2,
@@ -108,5 +116,8 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         marginRight: 10,
         paddingTop: 2,
+    },
+    buttonWrapper: {
+        marginTop: 20,
     },
 });

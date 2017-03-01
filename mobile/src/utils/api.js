@@ -1,8 +1,10 @@
 export async function checkStatus(response) {
-    if (response.status !== 200) {
-        if (response.status === 400 && isJson(response)) {
+    if (response.status >= 400) {
+        let message = response.statusText;
+        if (isJson(response)) {
             const json = await response.json();
-            throw new Error(json.message);
+            console.log(json);
+            message = json.message;
         }
         if (response.status === 401) {
             throw new Error('Authentication failed (check the apiKey)');
@@ -10,7 +12,7 @@ export async function checkStatus(response) {
         if (response.status === 404) {
             throw new Error('Authentication failed (check the host)');
         }
-        throw new Error('Response failed (code = ' + response.status + ')');
+        throw new Error(message);
     }
 
     return response;
