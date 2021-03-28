@@ -1,14 +1,14 @@
 <?php
 
-namespace ChauffeMarcel\Configuration;
+namespace App\Configuration;
 
-use ChauffeMarcel\Api\Model\Configuration;
+use App\Api\Model\Configuration;
 
 class HeatingStrategy
 {
     public function shouldHeat(Configuration $configuration): bool
     {
-        if ($configuration->getMode() === ModeConstant::NOT_FORCED) {
+        if (ModeConstant::NOT_FORCED === $configuration->getMode()) {
             return $this->makeDecisionForTimeSlots($configuration->getTimeSlots());
         }
 
@@ -22,7 +22,7 @@ class HeatingStrategy
         $time = $now->format('H:i');
         $dayOfTheWeek = (int) $now->format('w');
 
-        if ($dayOfTheWeek === 0) {
+        if (0 === $dayOfTheWeek) {
             $dayOfTheWeek = 7;
         }
 
@@ -41,7 +41,7 @@ class HeatingStrategy
 
     private function makeDecisionForForcedMode(string $mode): bool
     {
-        if ($mode === ModeConstant::FORCED_ON) {
+        if (ModeConstant::FORCED_ON === $mode) {
             return true;
         }
 

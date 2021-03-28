@@ -1,6 +1,6 @@
 <?php
 
-namespace ChauffeMarcel\Api\Model;
+namespace App\Api\Model;
 
 class TimeSlot
 {
@@ -20,72 +20,52 @@ class TimeSlot
      * @var int
      */
     protected $dayOfWeek;
-    /**
-     * @return string
-     */
-    public function getUuid()
+
+    public function getUuid(): string
     {
         return $this->uuid;
     }
-    /**
-     * @param string $uuid
-     *
-     * @return self
-     */
-    public function setUuid($uuid = null)
+
+    public function setUuid(string $uuid): self
     {
         $this->uuid = $uuid;
+
         return $this;
     }
-    /**
-     * @return string
-     */
-    public function getStart()
+
+    public function getStart(): string
     {
         return $this->start;
     }
-    /**
-     * @param string $start
-     *
-     * @return self
-     */
-    public function setStart($start = null)
+
+    public function setStart(string $start): self
     {
         $this->start = $start;
+
         return $this;
     }
-    /**
-     * @return string
-     */
-    public function getEnd()
+
+    public function getEnd(): string
     {
         return $this->end;
     }
-    /**
-     * @param string $end
-     *
-     * @return self
-     */
-    public function setEnd($end = null)
+
+    public function setEnd(string $end): self
     {
         $this->end = $end;
+
         return $this;
     }
-    /**
-     * @return int
-     */
-    public function getDayOfWeek()
+
+    public function getDayOfWeek(): int
     {
         return $this->dayOfWeek;
     }
-    /**
-     * @param int $dayOfWeek
-     *
-     * @return self
-     */
-    public function setDayOfWeek($dayOfWeek = null)
+
+    public function setDayOfWeek(int $dayOfWeek): self
     {
         $this->dayOfWeek = $dayOfWeek;
+
         return $this;
     }
 }

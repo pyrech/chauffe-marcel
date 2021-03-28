@@ -1,6 +1,6 @@
 <?php
 
-namespace ChauffeMarcel;
+namespace App;
 
 interface MarcelException
 {

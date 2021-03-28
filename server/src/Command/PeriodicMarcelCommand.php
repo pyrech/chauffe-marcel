@@ -1,17 +1,20 @@
 <?php
 
-namespace ChauffeMarcel\Command;
+namespace App\Command;
 
-use ChauffeMarcel\Configuration\Storage;
-use ChauffeMarcel\Marcel;
+use App\Configuration\Storage;
+use App\Marcel;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class PeriodicMarcelCommand extends Command
 {
-    private $storage;
-    private $marcel;
+    protected static $defaultName = 'chauffe_marcel:periodic';
+    protected static $defaultDescription = 'Require heating if needed';
+
+    private Storage $storage;
+    private Marcel $marcel;
 
     public function __construct(Storage $storage, Marcel $marcel)
     {
@@ -24,15 +27,16 @@ class PeriodicMarcelCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('chauffe_marcel:periodic')
-            ->setDescription('Require heating if needed')
+            ->setDescription(self::$defaultDescription)
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configuration = $this->storage->retrieve();
 
         $this->marcel->chauffe($configuration);
+
+        return Command::SUCCESS;
     }
 }

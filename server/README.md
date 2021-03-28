@@ -33,15 +33,18 @@ running regularly.
 
 ## Requirements
 
-- PHP 7
+- PHP 7.4
 - Web server
 
 ## Installation
 
-Use [`composer`](https://getcomposer.org/) to install the application. For development purposes, some
-`make` tasks are also available, see `make help`.
+Use [`composer`](https://getcomposer.org/) to install the application.
+
+```bash
+composer install
+```
 
 ## Configuration
 
-- The web server should be configured with its root directory pointing to `web/`
+- The web server should be configured with its root directory pointing to `public/`
 - A cron should regularly (ie every 5 minutes is fine) run `php bin/console chauffe_marcel:periodic`

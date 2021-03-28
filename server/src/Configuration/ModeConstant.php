@@ -1,6 +1,6 @@
 <?php
 
-namespace ChauffeMarcel\Configuration;
+namespace App\Configuration;
 
 abstract class ModeConstant
 {

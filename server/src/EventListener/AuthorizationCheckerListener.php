@@ -1,16 +1,16 @@
 <?php
 
-namespace ChauffeMarcel\EventListener;
+namespace App\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class AuthorizationCheckerListener implements EventSubscriberInterface
 {
-    private $apiKey;
+    private string $apiKey;
 
     public function __construct(string $apiKey)
     {
@@ -29,11 +29,11 @@ class AuthorizationCheckerListener implements EventSubscriberInterface
         ];
     }
 
-    public function checkHeader(GetResponseEvent $event)
+    public function checkHeader(RequestEvent $event): void
     {
         $request = $event->getRequest();
 
-        if (!$event->isMasterRequest() || strpos($request->getPathInfo(), '/api') !== 0) {
+        if (!$event->isMasterRequest() || 0 !== strpos($request->getPathInfo(), '/api')) {
             return;
         }
 

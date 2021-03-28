@@ -1,8 +1,8 @@
 <?php
 
-namespace ChauffeMarcel\Remote;
+namespace App\Remote;
 
-use ChauffeMarcel\MarcelException;
+use App\MarcelException;
 
 class ParticleApiException extends \Exception implements MarcelException
 {

@@ -1,21 +1,22 @@
 <?php
 
-namespace ChauffeMarcel\Controller;
+namespace App\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use App\Remote\Particle;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-class DefaultController extends Controller
+class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="homepage")
      */
-    public function indexAction(Request $request)
+    public function indexAction(Particle $particle, Request $request): Response
     {
-        $this->get('chauffe_marcel.particle');
         // todo
 
-        return new \Symfony\Component\HttpFoundation\Response('ok');
+        return new Response('ok');
     }
 }

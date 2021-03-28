@@ -1,13 +1,13 @@
 <?php
 
-namespace ChauffeMarcel\Remote;
+namespace App\Remote;
 
-use ChauffeMarcel\MarcelException;
+use App\MarcelException;
 
 class ParticleLogicException extends \Exception implements MarcelException
 {
-    private $endpoint;
-    private $result;
+    private string $endpoint;
+    private array $result;
 
     public function __construct(string $endpoint, array $result)
     {

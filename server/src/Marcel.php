@@ -1,15 +1,15 @@
 <?php
 
-namespace ChauffeMarcel;
+namespace App;
 
-use ChauffeMarcel\Api\Model\Configuration;
-use ChauffeMarcel\Configuration\HeatingStrategy;
-use ChauffeMarcel\Remote\Particle;
+use App\Api\Model\Configuration;
+use App\Configuration\HeatingStrategy;
+use App\Remote\Particle;
 
 class Marcel
 {
-    private $particle;
-    private $heatingStrategy;
+    private Particle $particle;
+    private HeatingStrategy $heatingStrategy;
 
     public function __construct(Particle $particle, HeatingStrategy $heatingStrategy)
     {
@@ -17,7 +17,7 @@ class Marcel
         $this->heatingStrategy = $heatingStrategy;
     }
 
-    public function chauffe(Configuration $configuration)
+    public function chauffe(Configuration $configuration): void
     {
         $isHeating = $this->particle->isHeating();
         $shouldHeat = $this->heatingStrategy->shouldHeat($configuration);

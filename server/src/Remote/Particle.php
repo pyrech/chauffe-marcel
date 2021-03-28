@@ -1,36 +1,36 @@
 <?php
 
-namespace ChauffeMarcel\Remote;
+namespace App\Remote;
 
 class Particle
 {
     const API_ENDPOINT = 'https://api.particle.io/v1/devices/%s/%s?access_token=%s';
 
-    private $deviceId;
-    private $accessToken;
+    private string $deviceId;
+    private string $accessToken;
 
-    public function __construct(string $deviceId, string $accessToken)
+    public function __construct(string $particleDeviceId, string $particleAccessToken)
     {
-        $this->deviceId = $deviceId;
-        $this->accessToken = $accessToken;
+        $this->deviceId = $particleDeviceId;
+        $this->accessToken = $particleAccessToken;
     }
 
-    public function enable()
+    public function enable(): void
     {
         $this->callFunction('enable');
     }
 
-    public function disable()
+    public function disable(): void
     {
         $this->callFunction('disable');
     }
 
     public function isHeating(): bool
     {
-        return $this->getVariable('status') === true;
+        return true === $this->getVariable('status');
     }
 
-    private function callFunction(string $name)
+    private function callFunction(string $name): void
     {
         $result = $this->call($name, 'POST');
 
@@ -43,7 +43,7 @@ class Particle
     {
         $result = $this->call($name, 'GET');
 
-        if (!isset($result['cmd']) || $result['cmd'] !== 'VarReturn' || !array_key_exists('result', $result)) {
+        if (!isset($result['cmd']) || 'VarReturn' !== $result['cmd'] || !array_key_exists('result', $result)) {
             throw new ParticleLogicException($name, $result);
         }
 

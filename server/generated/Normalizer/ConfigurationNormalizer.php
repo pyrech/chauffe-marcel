@@ -1,61 +1,72 @@
 <?php
 
-namespace ChauffeMarcel\Api\Normalizer;
+namespace App\Api\Normalizer;
 
-use Joli\Jane\Runtime\Reference;
+use App\Api\Runtime\Normalizer\CheckArray;
+use Jane\JsonSchemaRuntime\Reference;
+use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\SerializerAwareNormalizer;
-class ConfigurationNormalizer extends SerializerAwareNormalizer implements DenormalizerInterface, NormalizerInterface
+
+class ConfigurationNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
+    use DenormalizerAwareTrait;
+    use NormalizerAwareTrait;
+    use CheckArray;
+
     public function supportsDenormalization($data, $type, $format = null)
     {
-        if ($type !== 'ChauffeMarcel\\Api\\Model\\Configuration') {
-            return false;
-        }
-        return true;
+        return 'App\\Api\\Model\\Configuration' === $type;
     }
+
     public function supportsNormalization($data, $format = null)
     {
-        if ($data instanceof \ChauffeMarcel\Api\Model\Configuration) {
-            return true;
-        }
-        return false;
+        return $data instanceof \App\Api\Model\Configuration;
     }
-    public function denormalize($data, $class, $format = null, array $context = array())
+
+    public function denormalize($data, $class, $format = null, array $context = [])
     {
-        if (isset($data->{'$ref'})) {
-            return new Reference($data->{'$ref'}, $context['rootSchema'] ?: null);
+        if (isset($data['$ref'])) {
+            return new Reference($data['$ref'], $context['document-origin']);
         }
-        $object = new \ChauffeMarcel\Api\Model\Configuration();
-        if (!isset($context['rootSchema'])) {
-            $context['rootSchema'] = $object;
+        if (isset($data['$recursiveRef'])) {
+            return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        if (property_exists($data, 'mode')) {
-            $object->setMode($data->{'mode'});
+        $object = new \App\Api\Model\Configuration();
+        if (null === $data || false === \is_array($data)) {
+            return $object;
         }
-        if (property_exists($data, 'timeSlots')) {
-            $values = array();
-            foreach ($data->{'timeSlots'} as $value) {
-                $values[] = $this->serializer->deserialize($value, 'ChauffeMarcel\\Api\\Model\\TimeSlot', 'raw', $context);
+        if (\array_key_exists('mode', $data)) {
+            $object->setMode($data['mode']);
+        }
+        if (\array_key_exists('timeSlots', $data)) {
+            $values = [];
+            foreach ($data['timeSlots'] as $value) {
+                $values[] = $this->denormalizer->denormalize($value, 'App\\Api\\Model\\TimeSlot', 'json', $context);
             }
             $object->setTimeSlots($values);
         }
+
         return $object;
     }
-    public function normalize($object, $format = null, array $context = array())
+
+    public function normalize($object, $format = null, array $context = [])
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getMode()) {
-            $data->{'mode'} = $object->getMode();
+            $data['mode'] = $object->getMode();
         }
         if (null !== $object->getTimeSlots()) {
-            $values = array();
+            $values = [];
             foreach ($object->getTimeSlots() as $value) {
-                $values[] = $this->serializer->serialize($value, 'raw', $context);
+                $values[] = $this->normalizer->normalize($value, 'json', $context);
             }
-            $data->{'timeSlots'} = $values;
+            $data['timeSlots'] = $values;
         }
+
         return $data;
     }
 }

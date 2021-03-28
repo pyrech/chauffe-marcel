@@ -1,6 +1,6 @@
 <?php
 
-namespace ChauffeMarcel\Api\Model;
+namespace App\Api\Model;
 
 class Configuration
 {
@@ -12,38 +12,34 @@ class Configuration
      * @var TimeSlot[]
      */
     protected $timeSlots;
-    /**
-     * @return string
-     */
-    public function getMode()
+
+    public function getMode(): string
     {
         return $this->mode;
     }
-    /**
-     * @param string $mode
-     *
-     * @return self
-     */
-    public function setMode($mode = null)
+
+    public function setMode(string $mode): self
     {
         $this->mode = $mode;
+
         return $this;
     }
+
     /**
      * @return TimeSlot[]
      */
-    public function getTimeSlots()
+    public function getTimeSlots(): array
     {
         return $this->timeSlots;
     }
+
     /**
      * @param TimeSlot[] $timeSlots
-     *
-     * @return self
      */
-    public function setTimeSlots(array $timeSlots = null)
+    public function setTimeSlots(array $timeSlots): self
     {
         $this->timeSlots = $timeSlots;
+
         return $this;
     }
 }

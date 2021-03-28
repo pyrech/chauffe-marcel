@@ -1,65 +1,76 @@
 <?php
 
-namespace ChauffeMarcel\Api\Normalizer;
+namespace App\Api\Normalizer;
 
-use Joli\Jane\Runtime\Reference;
+use App\Api\Runtime\Normalizer\CheckArray;
+use Jane\JsonSchemaRuntime\Reference;
+use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\SerializerAwareNormalizer;
-class TimeSlotNormalizer extends SerializerAwareNormalizer implements DenormalizerInterface, NormalizerInterface
+
+class TimeSlotNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
 {
+    use DenormalizerAwareTrait;
+    use NormalizerAwareTrait;
+    use CheckArray;
+
     public function supportsDenormalization($data, $type, $format = null)
     {
-        if ($type !== 'ChauffeMarcel\\Api\\Model\\TimeSlot') {
-            return false;
-        }
-        return true;
+        return 'App\\Api\\Model\\TimeSlot' === $type;
     }
+
     public function supportsNormalization($data, $format = null)
     {
-        if ($data instanceof \ChauffeMarcel\Api\Model\TimeSlot) {
-            return true;
-        }
-        return false;
+        return $data instanceof \App\Api\Model\TimeSlot;
     }
-    public function denormalize($data, $class, $format = null, array $context = array())
+
+    public function denormalize($data, $class, $format = null, array $context = [])
     {
-        if (isset($data->{'$ref'})) {
-            return new Reference($data->{'$ref'}, $context['rootSchema'] ?: null);
+        if (isset($data['$ref'])) {
+            return new Reference($data['$ref'], $context['document-origin']);
         }
-        $object = new \ChauffeMarcel\Api\Model\TimeSlot();
-        if (!isset($context['rootSchema'])) {
-            $context['rootSchema'] = $object;
+        if (isset($data['$recursiveRef'])) {
+            return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-        if (property_exists($data, 'uuid')) {
-            $object->setUuid($data->{'uuid'});
+        $object = new \App\Api\Model\TimeSlot();
+        if (null === $data || false === \is_array($data)) {
+            return $object;
         }
-        if (property_exists($data, 'start')) {
-            $object->setStart($data->{'start'});
+        if (\array_key_exists('uuid', $data)) {
+            $object->setUuid($data['uuid']);
         }
-        if (property_exists($data, 'end')) {
-            $object->setEnd($data->{'end'});
+        if (\array_key_exists('start', $data)) {
+            $object->setStart($data['start']);
         }
-        if (property_exists($data, 'dayOfWeek')) {
-            $object->setDayOfWeek($data->{'dayOfWeek'});
+        if (\array_key_exists('end', $data)) {
+            $object->setEnd($data['end']);
         }
+        if (\array_key_exists('dayOfWeek', $data)) {
+            $object->setDayOfWeek($data['dayOfWeek']);
+        }
+
         return $object;
     }
-    public function normalize($object, $format = null, array $context = array())
+
+    public function normalize($object, $format = null, array $context = [])
     {
-        $data = new \stdClass();
+        $data = [];
         if (null !== $object->getUuid()) {
-            $data->{'uuid'} = $object->getUuid();
+            $data['uuid'] = $object->getUuid();
         }
         if (null !== $object->getStart()) {
-            $data->{'start'} = $object->getStart();
+            $data['start'] = $object->getStart();
         }
         if (null !== $object->getEnd()) {
-            $data->{'end'} = $object->getEnd();
+            $data['end'] = $object->getEnd();
         }
         if (null !== $object->getDayOfWeek()) {
-            $data->{'dayOfWeek'} = $object->getDayOfWeek();
+            $data['dayOfWeek'] = $object->getDayOfWeek();
         }
+
         return $data;
     }
 }

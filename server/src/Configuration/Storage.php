@@ -1,28 +1,28 @@
 <?php
 
-namespace ChauffeMarcel\Configuration;
+namespace App\Configuration;
 
-use ChauffeMarcel\Api\Model\Configuration;
-use Symfony\Component\Serializer\Serializer;
+use App\Api\Model\Configuration;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class Storage
 {
-    private $path;
-    private $serializer;
+    private string $path;
+    private SerializerInterface $serializer;
 
-    public function __construct(string $path, Serializer $serializer)
+    public function __construct(string $storagePath, SerializerInterface $serializer)
     {
-        $this->path = $path;
+        $this->path = $storagePath;
         $this->serializer = $serializer;
     }
 
-    public function store(Configuration $configuration)
+    public function store(Configuration $configuration): void
     {
         $json = $this->serializer->serialize($configuration, 'json');
 
         $size = file_put_contents($this->path, $json);
 
-        if ($size === false || $size < 1) {
+        if (false === $size || $size < 1) {
             throw new StorageException('Could not store configuration');
         }
     }
@@ -39,7 +39,7 @@ class Storage
 
         $json = file_get_contents($this->path);
 
-        if ($json === false) {
+        if (false === $json) {
             throw new StorageException('Could not retrieve configuration');
         }
 

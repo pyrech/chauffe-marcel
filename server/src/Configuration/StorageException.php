@@ -1,8 +1,8 @@
 <?php
 
-namespace ChauffeMarcel\Configuration;
+namespace App\Configuration;
 
-use ChauffeMarcel\MarcelException;
+use App\MarcelException;
 
 class StorageException extends \Exception implements MarcelException
 {
